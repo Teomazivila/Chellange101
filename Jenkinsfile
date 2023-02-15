@@ -52,7 +52,7 @@ pipeline {
                 def containerName = "${params.ENVIRONMENT_NAME}_${dateTime}"
                 def mysql_passwd = "${params.MYSQL_PASSWORD}"
                 sh """
-                docker run -itd --name ${containerName} --rm -e MYSQL_ROOT_PASSWORD=$params.MYSQL_PASSWORD -p $params.MYSQL_PORT:3306 $params.ENVIRONMENT_NAME:latest
+                docker run -itd --name ${containerName} --rm -e MYSQL_ROOT_PASSWORD="${mysql_passwd}" -p $params.MYSQL_PORT:3306 $params.ENVIRONMENT_NAME:latest
                 """
 
                 sh """
