@@ -54,11 +54,11 @@ pipeline {
                 sh """
                 echo ${mysqlPasswd}
                 echo "${mysqlPasswd}"
-                docker run -itd --name ${containerName} --rm -e MYSQL_ROOT_PASSWORD=${mysqlPasswd} -p $params.MYSQL_PORT:3306 $params.ENVIRONMENT_NAME:latest
+                docker run -itd --name ${containerName} --rm -e MYSQL_ROOT_PASSWORD=$params.MYSQL_PASSWORD -p $params.MYSQL_PORT:3306 $params.ENVIRONMENT_NAME:latest
                 """
 
                 sh """
-                docker exec ${containerName} /bin/bash -c 'mysql --user="root" --password=${mysqlPasswd} < /scripts/create_developer.sql'
+                docker exec ${containerName} /bin/bash -c 'mysql --user="root" --password=$params.MYSQL_PASSWORD < /scripts/create_developer.sql'
                 """
 
                 echo "Docker container created: $containerName"
