@@ -54,7 +54,7 @@ pipeline {
                 sh """
                 echo ${mysqlPasswd}
                 echo "${mysqlPasswd}"
-                docker run -itd --name ${containerName} --rm -e MYSQL_ROOT_PASSWORD=$params.MYSQL_PASSWORD -p $params.MYSQL_PORT:3306 $params.ENVIRONMENT_NAME:latest
+                docker run -d --name ${containerName} --rm -e MYSQL_ROOT_PASSWORD=$params.MYSQL_PASSWORD -p $params.MYSQL_PORT:3306 $params.ENVIRONMENT_NAME:latest
                 """
 
                 sh """
