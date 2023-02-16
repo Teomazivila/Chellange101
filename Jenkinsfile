@@ -50,15 +50,12 @@ pipeline {
                 
                 def dateTime = (sh(script: "date +%Y%m%d%H%M%S", returnStdout: true).trim())
                 def containerName = "${params.ENVIRONMENT_NAME}"
-                def mysqlPasswd = "${params.MYSQL_PASSWORD}"
                 sh """
-                echo ${mysqlPasswd}
-                echo "${mysqlPasswd}"
                 docker run -d --name ${containerName} --rm -e MYSQL_ROOT_PASSWORD=$params.MYSQL_PASSWORD -p $params.MYSQL_PORT:3306 $params.ENVIRONMENT_NAME:latest
                 """
 
                 sh """
-                docker exec ${containerName} /bin/bash -c 'mysql --user="root" --password=6LQU7ndsNPYzM2U$% < /scripts/create_developer.sql'
+                 docker exec ${containerName} /bin/bash -c 'mysql --user="root" --password="$params.MYSQL_PASSWORD" < /scripts/create_developer.sql'
                 """
 
                 echo "Docker container created: $containerName"
